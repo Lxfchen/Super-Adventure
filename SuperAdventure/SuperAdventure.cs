@@ -21,14 +21,11 @@ namespace SuperAdventure
         {
             InitializeComponent();
 
-            _player = new Player(10, 10, 20, 0, 1);
+            _player = new Player(10, 10, 20, 0);
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
             _player.Inventory.Add(new InventoryItem(World.ItemByID(World.ITEM_ID_RUSTY_SWORD), 1));
 
-            lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-            lblGold.Text = _player.Gold.ToString();
-            lblExperience.Text = _player.ExperiencePoints.ToString();
-            lblLevel.Text = _player.Level.ToString();
+            UpdatePlayerStats();
         }
 
         private void btnNorth_Click(object sender, EventArgs e)
@@ -56,6 +53,7 @@ namespace SuperAdventure
             if (!_player.HasRequiredItemToEnterThisLocation(newLocation))
             {
                 rtbMessages.Text += "You must have a " + newLocation.ItemRequiredToEnter.Name + " to enter this location." + Environment.NewLine;
+                ScrollToBottomOfMessages();
                 return;
             }
 
@@ -178,6 +176,9 @@ namespace SuperAdventure
                 btnUsePotion.Visible = false;
             }
 
+            // Refresh player's stats
+            UpdatePlayerStats();
+
             // Refresh player's inventory list
             UpdateInventoryListInUI();
 
@@ -189,6 +190,17 @@ namespace SuperAdventure
 
             // Refresh player's potions combobox
             UpdatePotionListInUI();
+
+            ScrollToBottomOfMessages();
+        }
+
+        private void UpdatePlayerStats()
+        {
+            // Refresh player information adn inventory controls
+            lblHitPoints.Text = _player.CurrentHitPoints.ToString();
+            lblGold.Text = _player.Gold.ToString();
+            lblExperience.Text = _player.ExperiencePoints.ToString();
+            lblLevel.Text = _player.Level.ToString();
         }
            
         private void UpdateInventoryListInUI()
@@ -303,9 +315,10 @@ namespace SuperAdventure
 
             // Display message
             rtbMessages.Text += "You hit the " + _currentMonster.Name + " for " + damageToMonster.ToString() + " points." + Environment.NewLine;
+            ScrollToBottomOfMessages();
 
             // Check if the monster is dead
-            if(_currentMonster.CurrentHitPoints <= 0)
+            if (_currentMonster.CurrentHitPoints <= 0)
             {
                 // Monster is dead
                 rtbMessages.Text += Environment.NewLine;
@@ -359,11 +372,8 @@ namespace SuperAdventure
                 }
 
                 // Refresh player information and inventory controls
-                lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-                lblGold.Text = _player.Gold.ToString();
-                lblExperience.Text = _player.ExperiencePoints.ToString();
-                lblLevel.Text = _player.Level.ToString();
 
+                UpdatePlayerStats();
                 UpdateInventoryListInUI();
                 UpdateWeaponListInUI();
                 UpdatePotionListInUI();
@@ -452,6 +462,12 @@ namespace SuperAdventure
             lblHitPoints.Text = _player.CurrentHitPoints.ToString();
             UpdateInventoryListInUI();
             UpdatePotionListInUI();
+        }
+
+        private void ScrollToBottomOfMessages()
+        {
+            rtbMessages.SelectionStart = rtbMessages.Text.Length;
+            rtbMessages.ScrollToCaret();
         }
     }
 }
