@@ -120,13 +120,13 @@ namespace Engine
             alchemistHut.QuestAvailableHere = QuestByID(QUEST_ID_CLEAR_ALCHEMIST_GARDEN);
 
             Location alchemistsGarden = new Location(LOCATION_ID_ALCHEMISTS_GARDEN, "Alchemist's garden", "Many plants are growing here.");
-            alchemistHut.MonsterLivingHere = MonsterByID(MONSTER_ID_RAT);
+            alchemistsGarden.MonsterLivingHere = MonsterByID(MONSTER_ID_RAT);
 
             Location farmhouse = new Location(LOCATION_ID_FARMHOUSE, "Farmhouse", "There is a small farmhouse, with a farmer in front.");
             farmhouse.QuestAvailableHere = QuestByID(QUEST_ID_CLEAR_FAMERS_FIELD);
 
             Location farmersField = new Location(LOCATION_ID_FARM_FIELD, "Farmer's field", "You see rows of Vegetables growing here.");
-            farmhouse.MonsterLivingHere = MonsterByID(MONSTER_ID_SNAKE);
+            farmersField.MonsterLivingHere = MonsterByID(MONSTER_ID_SNAKE);
 
             Location guardPost = new Location(LOCATION_ID_GUARD_POST, "Guard post", "There is a large, tough-looking guard here.", ItemByID(ITEM_ID_ADVENTURER_PASS));
 
